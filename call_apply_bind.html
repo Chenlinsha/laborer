@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    var obj = {}
+    Function.prototype.MyCall = function (context=window) {
+        if (typeof context === 'object' && typeof context !== 'null') {
+            let prop = Symbol()
+            let args = [];
+            for (let i = 1; i < arguments.length; i++) {
+                args.push(arguments[i])
+            }
+            context[prop] = this
+            context[prop](...args)
+        }
+    }
+    Function.prototype.MyApply = function (context) {
+        if (typeof context === 'object' && typeof context !== 'null') {
+            let prop = Symbol()
+            let args = [];
+            for (let i = 0; i < arguments[1].length; i++) {
+                args.push(arguments[1][i])
+            }
+            context[prop] = this
+            context[prop](...args)
+        }
+    }
+
+    Function.prototype.MyBind = function (context) {
+        let fn = this
+        var args = Array.prototype.slice.call(arguments, 1)
+        var targrt = function () {
+            var innerArgs = Array.prototype.slice.call(arguments)
+            return fn.apply(context, args.concat(innerArgs))
+        }
+        targrt.prototype = Object.create(fn.prototype)
+        return targrt
+    }
+    function text(a, b) {
+        console.log(a + b);
+        return a + b
+    }
+    text.MyCall({}, 1, 2)
+    text.MyApply({}, [4, 5])
+    text.MyBind(obj, 5, 2)()
+    function deepClone(obj) {
+        let objClone = Array.isArray(obj) ? [] : {};
+        for (let k in obj) {
+            if (obj[k] && typeof obj === 'object') {
+                objClone[k] == deepClone(obj[k])
+            } else {
+                objClone[k] = obj[k]
+            }
+        }
+    }
+</script>
+
+</html>

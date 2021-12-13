@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function deepClone(obj) {
+        let objClone = Array.isArray(obj) ? [] : {};
+        if (obj && typeof obj == 'object') {
+            for (const key in obj) {
+                //判断obj子元素是否为对象，如果是，递归复制
+                if (obj[key] && typeof obj[key] === "object") {
+                    objClone[key] = deepCopy(obj[key]);
+                } else {
+                    //如果不是，简单复制
+                    objClone[key] = obj[key];
+                }
+            }
+        }
+        return objClone;
+    }
+    //arr.forEach(callback(currentValue [, index [, array]])[, thisArg])
+    // callback
+    //为数组中每个元素执行的函数，该函数接收一至三个参数：
+    //currentValue
+    //数组中正在处理的当前元素。
+    //index 可选
+    //数组中正在处理的当前元素的索引。
+    //array 可选
+    //forEach() 方法正在操作的数组。
+    //thisArg 可选
+    ///可选参数。当执行回调函数 callback 时，用作 this 的值。
+    Array.prototype.MyForEach = function (cb) {
+        var _arr = this;
+        var _len = _arr.length
+        var _arg2 = arguments[1] || window
+        for (let i = 0; i < _len; i++) {
+            cb.apply(_arg2, [_arr[i], i, _arr])
+        }
+    }
+    //arr.map(callback(currentValue [, index [, array]])[, thisArg])
+    Array.prototype.Mymap = function (cb) {
+        var _arr = this;
+        var _len = _arr.length
+        var _arg2 = arguments[1] || window
+        var _newArr = []
+        var _item
+        var _res
+        for (let i = 0; i < _len; i++) {
+            _item = deppClone(_arr[i])
+            _res = cb.apply(_arg2, [_item, i, _arr])
+            _res && _newArr.push()
+        }
+        return _newArr
+    }
+    //  arr.filter(callback(currentValue [, index [, array]])[, thisArg])
+    Array.prototype.MyFilter = function () {
+        var _arr = this;
+        var _len = _arr.length
+        var _arg2 = arguments[1] || window
+        var _newArr = []
+        var _item
+        for (let i = 0; i < _len; i++) {
+            _item = deppClone(_arr[i])
+            cb.apply(_arg2, [_item, i, _arr]) ? _newArr.push(_item) : ''
+        } return _newArr
+    }
+    //arr.every(callback(currentValue [, index [, array]])[, thisArg])
+    Array.prototype.MyEvery = function (cb) {
+        var _arr = this;
+        var _len = _arr.length
+        var _arg2 = arguments[1] || window
+        var _res = true
+        for (let i = 0; i < _len; i++) {
+            if (!cb.apply(arg2, [_arr[i], i, _arr])) {
+                _res = false
+            }
+        }
+        return _res
+    }
+    //arr.some(callback(currentValue [, index [, array]])[, thisArg])
+    Array.prototype.MySome = function (cb) {
+        var _arr = this;
+        var _len = _arr.length
+        var _arr2 = arguments[1] || window
+        var _res = false
+        for (let i = 0; i < _len; i++) {
+            if (cb.apply(arg2, [_arr[i], i, _arr])) {
+                _res = true
+            }
+            break
+        }
+        return _res
+    }
+    // arr.reduce(callback(accumulator, currentValue[, index[, array]])[, initialValue])
+    Array.prototype.MyReduce = function (cb, initialValue) {
+        var _arr = this;
+        var _len = _arr.length
+        var _arg3 = arguments[2] || window
+        for (let i = 0; i < _len; i++) {
+            _item = deppClone(_arr[i])
+            initialValue = cb.apply(_arg3, [initialValue, _item, i, _arr])
+        }
+        return initialValue
+    }
+</script>
+
+</html>
